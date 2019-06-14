@@ -1,0 +1,264 @@
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: telcodataapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    name: telcodataapp
+    servicekind: ApplicationService
+spec:
+  deployer:
+    kind: helm
+    helm:
+      chartURL: https://jcresp.github.io/helm-telcodata/fsatelcodata-0.1.0.tgz
+      namespace: city-traffic
+
+---
+
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: telcodataapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    name: telcodataapp
+    servicekind: CacheService
+spec:
+  clusterReplicas: 1
+  clusterLabels:
+    matchLabels:
+      {{ .Values.placementpolicytelcoapp.clusterlabel }}: {{ .Values.placementpolicytelcoapp.clusterlabelvalue }}
+  resourceHint:
+    type: cpu
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+  name: telcodataapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    name: telcodataapp
+    servicekind: CacheService
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: telcodataapp
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: telcodataapp
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: telcodataapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: usesCreated
+  source:
+    kind: Application
+    name: {{ template "TrafficMgtHelm.fullname" . }}
+  destination:
+    kind: Deployable
+    name: telcodataapp
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: videoanalysisapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    name: videoanalysisapp
+    servicekind: ApplicationService
+spec:
+  deployer:
+    kind: helm
+    helm:
+      chartURL: https://jcresp.github.io/helm-edge/fsaedgevideo-0.1.0.tgz
+      namespace: city-traffic
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: videoanalysisapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    name: videoanalysisapp
+    servicekind: CacheService
+spec:
+  clusterReplicas: 1
+  clusterLabels:
+    matchLabels:
+      {{ .Values.placementpolicyvideoanalysis.clusterlabel }}: {{ .Values.placementpolicyvideoanalysis.clusterlabelvalue }}
+  resourceHint:
+    type: cpu
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+  name: videoanalysisapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    name: videoanalysisapp
+    servicekind: CacheService
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: videoanalysisapp
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: videoanalysisapp
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: videoanalysisapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: usesCreated
+  source:
+    kind: Application
+    name: {{ template "TrafficMgtHelm.fullname" . }}
+  destination:
+    kind: Deployable
+    name: videoanalysisapp
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: cityapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    name: cityapp
+    servicekind: ApplicationService
+spec:
+  deployer:
+    kind: helm
+    helm:
+      chartURL: https://jcresp.github.io/helm-core/fsacore-0.1.0.tgz
+      namespace: city-traffic
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: cityapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    name: cityapp
+    servicekind: CacheService
+spec:
+  clusterReplicas: 1
+  clusterLabels:
+    matchLabels:
+      {{ .Values.placementpolicycityapp.clusterlabel }}: {{ .Values.placementpolicycityapp.clusterlabelvalue }}
+  resourceHint:
+    type: cpu
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+  name: cityapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    name: cityapp
+    servicekind: CacheService
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: cityapp
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: cityapp
+
+---
+
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: cityapp
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: usesCreated
+  source:
+    kind: Application
+    name: {{ template "TrafficMgtHelm.fullname" . }}
+  destination:
+    kind: Deployable
+    name: cityapp
+
+---
+
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{ template "TrafficMgtHelm.fullname" . }}
+  labels:
+    app: {{ template "TrafficMgtHelm.name" . }}
+    chart: {{ template "TrafficMgtHelm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    name: {{ template "TrafficMgtHelm.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+      - fsatelcodata
+      - fsaedgevideo
+      - fsacore
+  componentKinds:
+  - group: core
+    kind: Pods

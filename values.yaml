@@ -1,0 +1,18 @@
+# Default values for TrafficMgtHelm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+placementpolicytelcoapp:
+  clusterlabel: name
+  clusterlabelvalue: edge1-cluster
+  replicaCount: 1
+
+placementpolicyvideoanalysis:
+  clusterlabel: name
+  clusterlabelvalue: edge1-cluster
+  replicaCount: 1
+
+placementpolicycityapp:
+  clusterlabel: name
+  clusterlabelvalue: core-cluster
+  replicaCount: 1
